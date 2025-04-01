@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock  %}
+
+{% block content %}
+    <div class="pt-5">
+        <form action="" method="GET">
+            <div class="d-flex justify-content-between">
+                <a href="{% url "item:add_item" %}" class="btn btn-secondary btn-lg w-50">Add Item</a>
+
+                <div class="input-group" style="max-width: 35%">
+                    <input type="text" class=" form-control form-control-lg" name="search" placeholder="Search">
+                    <button type="submit" class="btn btn-success btn-lg" >Search</button>
+                    <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4 mt-3">
+        {% for item in items %}
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card bg-secondary-subtle" style="width: 18rem;">
+                    <a href="">
+                       <img src="{{ item.image.url }}" class="card-img-top bg-white" alt="{{ item.name }}" style="width: 100%; height: 200px; object-fit: contain;"> 
+                    </a>
+                
+                    <div class="card-body">
+                      <h5 class="card-title" style=" display: -webkit-box;
+                                                    -webkit-line-clamp: 1;
+                                                    -webkit-box-orient: vertical;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;">{{ item.name }}</h5>
+                      <p class="card-text" style=" display: -webkit-box;
+                                                    -webkit-line-clamp: 2;
+                                                    -webkit-box-orient: vertical;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;">{{ item.description }}</p>
+                      <hr>
+                      <h6 class="card-text">${{ item.price }}</h6>
+                    </div>
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock  %}

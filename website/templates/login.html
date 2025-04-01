@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock  %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 75vh">
+    <div class="p-5 w-50 mx-auto rounded shadow-lg text-center">
+        <form action="" method="POST">
+            <h1 class="mb-5 fw-bold">Login</h1>
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" required>
+            </div>
+
+            <div class="mb-5">
+                <input type="password" class="form-control form-control-lg" placeholder="Password" name="password" required>
+            </div>
+
+            <div class="d-grid">
+                <button class="btn btn-primary btn-lg btn-block">Login</button>
+                <hr>
+                <a href="{% url "website:user_signup" %}" class="btn btn-success btn-lg btn-block">Signup</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock  %}
