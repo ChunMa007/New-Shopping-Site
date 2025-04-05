@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+<div class="p-3 bg-white mt-3 mb-3 rounded border" style="height: 80vh; overflow: auto;">
+    {% for message in conversation.messages.all %}
+        {% if message.created_by == request.user %}
+            <div class="d-flex justify-content-end">
+                <div class="bg-primary-subtle pt-3 pe-3 ps-3 mb-3 rounded text-end" style="max-width: 75%">
+                    <h6 class="fw-bold">{{ message.created_by.username }} | <span class="text-muted">{{ message.created_at }}</span></h6>
+                    <p>{{ message.content }}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-start">
+                <div class="bg-secondary-subtle pt-3 pe-3 ps-3 mb-3 rounded text-start" style="max-width: 75%">
+                    <h6 class="fw-bold">{{ message.created_by.username }} | <span class="text-muted">{{ message.created_at }}</span></h6>
+                    <p>{{ message.content }}</p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<div>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <div class="form-group d-flex">
+            <div class="flex-grow-1 me-2">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary" style="height: 38px">Send</button>
+        </div>
+    </form>
+</div> 
+{% endblock %}

@@ -3,13 +3,14 @@
 {% block title %}Signup{% endblock  %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="height: 75vh">
-    <div class="p-5 w-50 mx-auto rounded shadow-lg">
-        <form action="" method="POST">
+<div class="d-flex justify-content-center align-items-center mt-5" style="height: 75vh">
+    <div class="p-3 w-50 mx-auto rounded shadow-lg">
+        <form action="" method="POST" enctype="multipart/form-data">
             <h1 class="mb-5 fw-bold text-center">Signup</h1>
             {% csrf_token %}
 
-            {{ form.as_p }}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
 
             <div class="d-grid mt-5">
                 <button class="btn btn-primary btn-lg btn-block">Signup</button>

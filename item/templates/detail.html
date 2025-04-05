@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Detail{% endblock  %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 75vh;">
+        <div class="d-flex w-100 bg-white p-5 mt-5 shadow-lg">
+            <div class="w-50 me-4 rounded">
+                <img src="{{ item.image.url }}" alt="" class="rounded" style="max-width: 100%; height: 50vh">
+            </div>
+
+            <div class="w-50 rounded p-4">
+                <h1 class="fw-bold" style="display: -webkit-box;
+                                            -webkit-line-clamp: 1;
+                                            -webkit-box-orient: vertical;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;">{{ item.name }}</h1>
+                <hr>
+                <h3 class="fw-bold">Price: <strong class="text-danger">{{ item.price }}</strong></h3>
+                <h3 class="fw-bold">Description: <p class="h5" style="height: 20vh; overflow: auto;">{{ item.description }}</p></h3>
+                
+                <div class="pt-3 mt-5">
+                    {% if item.created_by == request.user %}
+                        <a href="{% url "item:edit_item" item.id %}" class="btn btn-primary btn-lg">Edit</a>
+                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#modalid">Delete</button>
+
+                        <div class="modal fade" id="modalid">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <h4>Do you want to delete this item?</h4>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <a href="{% url "item:delete_item" item.id %}" class="btn btn-danger btn-lg">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{% url "conversation:new_message" item.id %}" class="btn btn-success btn-lg">Contact Seller</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="row g-4 mb-5">
+        <h1 class="fw-bold text-center">Related Items</h1>
+
+        {% for related_item in related_items %}
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card bg-white shadow-sm" style="width: 18rem;">
+                    <a href="">
+                        <img src="{{ related_item.image.url }}" class="card-img-top bg-white" style="width: 100%; height: 200px; object-fit: contain" alt="{{ related_item.name }}">
+                    </a>
+
+                    <div class="card-body">
+                        <h5 class="card-title" style=" display: -webkit-box;
+                                                        -webkit-line-clamp: 1;
+                                                        -webkit-box-orient: vertical;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;">{{ related_item.name }}</h5>
+                        <p class="card-text" style=" display: -webkit-box;
+                                                    -webkit-line-clamp: 2;
+                                                    -webkit-box-orient: vertical;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;">{{ related_item.description }}</p>
+                        <hr>
+                        <h6 class="card-text">{{ related_item.price }}</h6>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock  %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Seller{% endblock  %}
+
+{% block content %}
+    <div class="mt-5 d-flex justify-content-center align-items-center">
+        <div class="p-5 w-50 mx-auto rounded shadow-lg">
+            <form action="" method="POST" enctype="multipart/form-data">
+                <h1 class="mb-5 fw-bold text-center">Contact Seller</h1>
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="d-grid mt-5">
+                    <button class="btn btn-primary btn-lg btn-block">Send</button>
+                </div>
+            </form>
+        </div>
+</div>
+{% endblock  %}

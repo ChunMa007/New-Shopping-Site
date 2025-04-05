@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock  %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center mt-5" style="height: 80vh">
+    <div class="p-3 w-50 mx-auto rounded shadow-lg">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <h1 class="mb-5 fw-bold text-center">Edit Profie</h1>
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <div class="d-grid mt-5">
+                <button class="btn btn-primary btn-lg btn-block">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock  %}

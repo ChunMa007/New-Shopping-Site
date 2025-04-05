@@ -16,8 +16,18 @@
         
         <ul class="navbar-nav d-flex justify-content-between">
             {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a href="{% url "website:user_logout" %}" class="btn btn-danger btn-lg">Logout</a>
+                <li class="nav-item d-flex flex-column">
+                    <div class="dropdown">
+                        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="{{ request.user.profile.image.url }}" class="rounded-circle" alt="{{ request.user.username }}" style="height: 45px; width: 45px;">
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url "conversation:inbox" %}">Inbox</a></li>
+                          <li><a class="dropdown-item" href="{% url "dashboard:index" %}">Dashboard</a></li>
+                          <li><a class="dropdown-item" href="{% url "website:profile" request.user.id %}">Profile</a></li>
+                          <li><a class="dropdown-item" href="{% url "website:user_logout" %}">Logout</a></li>
+                        </ul>
+                      </div>
                 </li>
             {% else %}
                 <li class="nav-item">

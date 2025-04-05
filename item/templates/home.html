@@ -4,25 +4,36 @@
 
 {% block content %}
     <div class="pt-5">
-        <form action="" method="GET">
+        <form action="{% url "item:home" %}" method="GET">
             <div class="d-flex justify-content-between">
-                <a href="{% url "item:add_item" %}" class="btn btn-secondary btn-lg w-50">Add Item</a>
+                <a href="{% url "item:add_item" %}" class="btn btn-outline-dark btn-lg w-50">Add Item</a>
 
                 <div class="input-group" style="max-width: 35%">
                     <input type="text" class=" form-control form-control-lg" name="search" placeholder="Search">
-                    <button type="submit" class="btn btn-success btn-lg" >Search</button>
-                    <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown">Filter</button>
+                    {% if category_id and category_id != "0" %}
+                        <input type="hidden" name="category" value="{{ category_id }}">
+                    {% endif %}
+                    
+                    <button class="btn btn-success btn-lg" >Search</button>
+                    <button class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown">Filter</button>
+                    <ul class="dropdown-menu">
+                        {% for category in categories %}
+                            <li><a href="{% url "item:home" %}?{% if term %}search={{ term }}&{% endif %}category={{ category.id }}" class="dropdown-item">{{ category.name }}</a></li>
+                        {% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a href="{% url "item:home" %}{% if term %}?search={{ term }}&{% endif %}" class="dropdown-item">Reset</a></li>
+                    </ul>
                 </div>
             </div>
         </form>
     </div>
 
-    <div class="row g-4 mt-3">
-        {% for item in items %}
+    <div class="row g-4 mt-3 mb-5">
+        {% for record in records %}
             <div class="col-12 col-md-6 col-lg-3">
-                <div class="card bg-secondary-subtle" style="width: 18rem;">
-                    <a href="">
-                       <img src="{{ item.image.url }}" class="card-img-top bg-white" alt="{{ item.name }}" style="width: 100%; height: 200px; object-fit: contain;"> 
+                <div class="card bg-white" style="width: 18rem;">
+                    <a href="{% url "item:detail" record.id %}">
+                       <img src="{{ record.image.url }}" class="card-img-top bg-white" alt="{{ record.name }}" style="width: 100%; height: 200px; object-fit: contain;"> 
                     </a>
                 
                     <div class="card-body">
@@ -30,17 +41,40 @@
                                                     -webkit-line-clamp: 1;
                                                     -webkit-box-orient: vertical;
                                                     overflow: hidden;
-                                                    text-overflow: ellipsis;">{{ item.name }}</h5>
+                                                    text-overflow: ellipsis;">{{ record.name }}</h5>
                       <p class="card-text" style=" display: -webkit-box;
                                                     -webkit-line-clamp: 2;
                                                     -webkit-box-orient: vertical;
                                                     overflow: hidden;
-                                                    text-overflow: ellipsis;">{{ item.description }}</p>
+                                                    text-overflow: ellipsis;">{{ record.description }}</p>
                       <hr>
-                      <h6 class="card-text">${{ item.price }}</h6>
+                      <h6 class="card-text">${{ record.price }}</h6>
                     </div>
                   </div>
             </div>
         {% endfor %}
     </div>
+
+    <div class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item {% if records.number == 1 %}disabled{% endif %}">
+                <a class="page-link" href="?{% if term %}search={{ term }}&{% endif %}{% if category_id and category_id != 0 %}category={{ category_id }}&{% endif %}page=1">First</a>
+            </li>
+            <li class="page-item {% if records.has_previous %}{% else %}disabled{% endif %}">
+                <a class="page-link" href="?{% if records.has_previous %}{% if term %}search={{ term }}&{% endif %}{% if category_id and category_id != '0' %}category={{ category_id }}&{% endif %}page={{ records.previous_page_number }}{% endif %}">Previous</a>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link active">{{ records.number }}</a>
+            </li>
+
+            <li class="page-item {% if records.has_next %}{% else %}disabled{% endif %}">
+                <a class="page-link" href="?{% if records.has_next %}{% if term %}search={{ term }}&{% endif %}{% if category_id and category_id != '0' %}category={{ category_id }}&{% endif %}page={{ records.next_page_number }}{% endif %}">Next</a>
+            </li>
+            <li class="page-item {% if records.number == records.paginator.num_pages %}disabled{% endif %}">
+                <a class="page-link" href="?{% if term %}search={{ term }}&{% endif %}{% if category_id and category_id != '0' %}category={{ category_id }}&{% endif %}page={{ records.paginator.num_pages }}">Last</a>
+            </li>
+        </ul>
+    </div>
+
 {% endblock  %}
