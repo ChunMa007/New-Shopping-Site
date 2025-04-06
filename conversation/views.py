@@ -19,10 +19,10 @@ def new_message(request, item_pk):
     if item.created_by == request.user:
         return redirect('item:detail', pk=item_pk)
     
-    conversation = Conversation.objects.filter(item=item).filter(members__in=[request.user.id])
+    conversations = Conversation.objects.filter(item=item).filter(members__in=[request.user.id])
     
-    if conversation:
-        pass
+    if conversations:
+        return redirect('conversation:detail_message', pk=conversations.first().id)
    
     if request.method == "POST":
        form = ConversationMessageForm(request.POST)

@@ -18,7 +18,7 @@
                     <button class="btn btn-primary btn-lg dropdown-toggle" data-bs-toggle="dropdown">Filter</button>
                     <ul class="dropdown-menu">
                         {% for category in categories %}
-                            <li><a href="{% url "item:home" %}?{% if term %}search={{ term }}&{% endif %}category={{ category.id }}" class="dropdown-item">{{ category.name }}</a></li>
+                            <li><a href="{% url "item:home" %}?{% if term %}search={{ term }}&{% endif %}category={{ category.id }}" class="dropdown-item {% if category_id == category.id|stringformat:"s" %}active{% endif %}">{{ category.name }}</a></li>
                         {% endfor %}
                             <li><hr class="dropdown-divider"></li>
                             <li><a href="{% url "item:home" %}{% if term %}?search={{ term }}&{% endif %}" class="dropdown-item">Reset</a></li>
@@ -33,7 +33,7 @@
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card bg-white" style="width: 18rem;">
                     <a href="{% url "item:detail" record.id %}">
-                       <img src="{{ record.image.url }}" class="card-img-top bg-white" alt="{{ record.name }}" style="width: 100%; height: 200px; object-fit: contain;"> 
+                       <img src="{{ record.image.url }}" class="card-img-top" alt="{{ record.name }}" style="width: 100%; height: 200px; object-fit: contain;"> 
                     </a>
                 
                     <div class="card-body">

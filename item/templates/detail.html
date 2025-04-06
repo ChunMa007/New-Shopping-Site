@@ -43,6 +43,9 @@
                         </div>
                     {% else %}
                         <a href="{% url "conversation:new_message" item.id %}" class="btn btn-success btn-lg">Contact Seller</a>
+                        <a href="{% url "cart:add" item.id %}" class="btn btn-outline-danger btn-lg">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </a>
                     {% endif %}
                 </div>
             </div>
